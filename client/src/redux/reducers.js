@@ -5,12 +5,13 @@ import {
   TOGGLE_CART,
 } from "./constants/ActionTypes";
 
-const initialCartItems = [];
+const initialCartItems = {
+  cartItems: [],
+};
 export const cartReducer = (state = initialCartItems, action) => {
   switch (action.type) {
     case ADD_TO_CART: {
       return {
-        ...state,
         cartItems: [
           ...state.cartItems,
           {
@@ -22,13 +23,11 @@ export const cartReducer = (state = initialCartItems, action) => {
     }
     case CLEAR_CART: {
       return {
-        ...state,
         cartItems: [],
       };
     }
     case REMOVE_FROM_CART: {
       return {
-        ...state,
         cartItems: [
           ...state.cartItems.filter((item) => item.id !== action.payload),
         ],
@@ -39,12 +38,14 @@ export const cartReducer = (state = initialCartItems, action) => {
   }
 };
 
-const initialCartStatus = false;
+const initialCartStatus = {
+  cartOpen: false,
+};
 export const openCartReducer = (state = initialCartStatus, action) => {
   switch (action.type) {
     case TOGGLE_CART: {
       return {
-        cartOpen: !state,
+        cartOpen: !state.cartOpen,
       };
     }
     default: {
