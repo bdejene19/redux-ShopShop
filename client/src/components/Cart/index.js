@@ -8,11 +8,11 @@ import Auth from "../../utils/auth";
 import { useStoreContext } from "../../utils/GlobalState";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
 import "./style.css";
-import { useSelector } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { store } from "../../redux/store";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
-const Cart = () => {
+const Cart = (props) => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
@@ -61,7 +61,7 @@ const Cart = () => {
     });
   }
 
-  if (!state.cartOpen) {
+  if (!props.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
         <span role="img" aria-label="trash">
@@ -104,5 +104,11 @@ const Cart = () => {
     </div>
   );
 };
-
-export default Cart;
+const mapStateToProps = (state) => {
+  let { cartOpen } = state;
+  return {
+    cartOpen: cartOpen,
+  };
+};
+export default connect(mapStateToProps)(Cart);
+// export default Cart;
