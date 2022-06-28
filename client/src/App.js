@@ -15,7 +15,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Nav from "./components/Nav";
 import { StoreProvider } from "./utils/GlobalState";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { store } from "./redux/store";
 import Success from "./pages/Success";
 import OrderHistory from "./pages/OrderHistory";
@@ -40,24 +40,23 @@ const client = new ApolloClient({
 });
 
 function App() {
-  console.log(store.getState());
   return (
     <ApolloProvider client={client}>
       <Router>
         <div>
           <StoreProvider>
-            {/* <Provider store={store}> */}
-            <Nav />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/success" element={<Success />} />
-              <Route path="/orderHistory" element={<OrderHistory />} />
-              <Route path="/products/:id" element={<Detail />} />
-              <Route path="*" element={<NoMatch />} />
-            </Routes>
-            {/* </Provider> */}
+            <Provider store={store}>
+              <Nav />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/success" element={<Success />} />
+                <Route path="/orderHistory" element={<OrderHistory />} />
+                <Route path="/products/:id" element={<Detail />} />
+                <Route path="*" element={<NoMatch />} />
+              </Routes>
+            </Provider>
           </StoreProvider>
         </div>
       </Router>
