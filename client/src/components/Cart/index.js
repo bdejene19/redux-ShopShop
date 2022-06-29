@@ -8,14 +8,14 @@ import Auth from "../../utils/auth";
 import { useStoreContext } from "../../utils/GlobalState";
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
 import "./style.css";
-import { connect, useSelector } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { store } from "../../redux/store";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = (props) => {
-  const [state, dispatch] = useStoreContext();
+  const [state, dispatch2] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
@@ -35,6 +35,7 @@ const Cart = (props) => {
     }
   }, [state.cart.length, dispatch]);
 
+  // redux implemented
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
   }
@@ -60,7 +61,6 @@ const Cart = (props) => {
       variables: { products: productIds },
     });
   }
-
   if (!props.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
