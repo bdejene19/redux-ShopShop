@@ -44,20 +44,20 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div>
-          <StoreProvider>
-            <Provider store={store}>
-              <Nav />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/success" element={<Success />} />
-                <Route path="/orderHistory" element={<OrderHistory />} />
-                <Route path="/products/:id" element={<Detail />} />
-                <Route path="*" element={<NoMatch />} />
-              </Routes>
-            </Provider>
-          </StoreProvider>
+          {/* <StoreProvider> */}
+          <Provider store={store}>
+            <Nav />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/success" element={<Success />} />
+              <Route path="/orderHistory" element={<OrderHistory />} />
+              <Route path="/products/:id" element={<Detail />} />
+              <Route path="*" element={<NoMatch />} />
+            </Routes>
+          </Provider>
+          {/* </StoreProvider> */}
         </div>
       </Router>
     </ApolloProvider>
