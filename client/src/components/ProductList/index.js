@@ -7,10 +7,11 @@ import { QUERY_PRODUCTS } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
 import spinner from "../../assets/spinner.gif";
 import { connect, useDispatch } from "react-redux";
+
 function ProductList(props) {
-  // commented out react global store useContext - replaced by redux
-  // const [state, dispatch2] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
   // const { currentCategory } = state;
+
   const dispatch = useDispatch();
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
