@@ -10,7 +10,7 @@ export const categoryUpdate = (state = initialCategories, action) => {
   switch (action.type) {
     case UPDATE_CATEGORIES: {
       return {
-        categories: [action.payload],
+        categories: [...action.categories],
       };
     }
     default:
@@ -22,7 +22,7 @@ export const categoryNameUpdate = (state = initialCategory, action) => {
   switch (action.type) {
     case UPDATE_CURRENT_CATEGORY: {
       return {
-        currentCategory: action.payload,
+        currentCategory: action.currentCategory,
       };
     }
     default:

@@ -7,14 +7,14 @@ import {
 } from "../../utils/actions";
 import { QUERY_CATEGORIES } from "../../utils/queries";
 import { idbPromise } from "../../utils/helpers";
+import { connect, useDispatch } from "react-redux";
 
-function CategoryMenu() {
-  const [state, dispatch] = useStoreContext();
-
-  const { categories } = state;
-
+function CategoryMenu(props) {
+  // linked redux to replace useContext global
+  // const [state, dispatch] = useStoreContext();
+  // const { categories } = state;
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (categoryData) {
       dispatch({
@@ -44,7 +44,7 @@ function CategoryMenu() {
   return (
     <div>
       <h2>Choose a Category:</h2>
-      {categories.map((item) => (
+      {props.categories?.map((item) => (
         <button
           key={item._id}
           onClick={() => {
@@ -57,5 +57,13 @@ function CategoryMenu() {
     </div>
   );
 }
+const mapStateToProps = (state) => {
+  let { categories, currentCategory } = state;
+  return {
+    categories: categories.categories,
+    currentCategory: currentCategory,
+  };
+};
 
-export default CategoryMenu;
+export default connect(mapStateToProps)(CategoryMenu);
+// export default CategoryMenu;

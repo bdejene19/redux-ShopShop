@@ -10,9 +10,8 @@ export const cartReducer = (state = initialCartItems, action) => {
   switch (action.type) {
     case ADD_TO_CART: {
       return {
-        ...state,
         cartItems: [
-          ...state.cartItems,
+          ...state,
           {
             id: state.cartItems.length,
             item: action.payload,
@@ -22,16 +21,12 @@ export const cartReducer = (state = initialCartItems, action) => {
     }
     case CLEAR_CART: {
       return {
-        ...state,
         cartItems: [],
       };
     }
     case REMOVE_FROM_CART: {
       return {
-        ...state,
-        cartItems: [
-          ...state.cartItems.filter((item) => item.id !== action.payload),
-        ],
+        cartItems: [...state.filter((item) => item.id !== action.payload)],
       };
     }
     default:
