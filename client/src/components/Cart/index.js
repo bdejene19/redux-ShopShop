@@ -13,7 +13,8 @@ import { store } from "../../redux/store";
 const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
 
 const Cart = (props) => {
-  const [state, dispatch2] = useStoreContext();
+  // commented out useContext store - replaced by redux
+  // const [state, dispatch2] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,17 +24,16 @@ const Cart = (props) => {
       });
     }
   }, [data]);
-
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise("cart", "get");
       dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
     }
 
-    if (!state.cart.length) {
+    if (!props.cart.length) {
       getCart();
     }
-  }, [state.cart.length, dispatch]);
+  }, [props.cart.length, dispatch]);
 
   // redux implemented
   function toggleCart() {
@@ -42,7 +42,7 @@ const Cart = (props) => {
 
   function calculateTotal() {
     let sum = 0;
-    state.cart.forEach((item) => {
+    props.cart.forEach((item) => {
       sum += item.price * item.purchaseQuantity;
     });
     return sum.toFixed(2);
@@ -51,7 +51,7 @@ const Cart = (props) => {
   function submitCheckout() {
     const productIds = [];
 
-    state.cart.forEach((item) => {
+    props.cart.forEach((item) => {
       for (let i = 0; i < item.purchaseQuantity; i++) {
         productIds.push(item._id);
       }
@@ -77,9 +77,9 @@ const Cart = (props) => {
         [close]
       </div>
       <h2>Shopping Cart</h2>
-      {state.cart.length ? (
+      {props.cart.length ? (
         <div>
-          {state.cart.map((item) => (
+          {props.cart.map((item) => (
             <CartItem key={item._id} item={item} />
           ))}
 
@@ -105,9 +105,10 @@ const Cart = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  let { cartOpen } = state;
+  let { cartOpen, cart } = state;
   return {
     cartOpen: cartOpen,
+    cart: cart,
   };
 };
 export default connect(mapStateToProps)(Cart);
